@@ -12,7 +12,7 @@ set_property -dict {PACKAGE_PIN V13  IOSTANDARD LVCMOS18} [get_ports CLK_40MHz_F
 set_property -dict {PACKAGE_PIN Y11 IOSTANDARD LVCMOS18} [get_ports CLKIN_10MHz]
 set_property -dict {PACKAGE_PIN W11 IOSTANDARD LVCMOS18} [get_ports REF_CLK_REQ]
 
-set_property -dict {PACKAGE_PIN AA20 IOSTANDARD LVCMOS33} [get_ports PPS_LED]
+set_property -dict {PACKAGE_PIN AA20 IOSTANDARD LVCMOS33} [get_ports PPS_LOCKED]
 set_property -dict {PACKAGE_PIN T20  IOSTANDARD LVCMOS33} [get_ports REF_LOCKED]
 
 set_property -dict {PACKAGE_PIN Y19 IOSTANDARD LVCMOS33} [get_ports GPS_nRST]
@@ -72,8 +72,8 @@ set_property  -dict {PACKAGE_PIN  K2  IOSTANDARD LVCMOS33 SLEW SLOW} [get_ports 
 set_property  -dict {PACKAGE_PIN  L1  IOSTANDARD LVCMOS33 SLEW SLOW} [get_ports GPIF_CTL12] ;
 
 
-set_property  -dict {PACKAGE_PIN  D14  IOSTANDARD LVCMOS33 } [get_ports FPGA_RXD0 ]; # B16_L1_P
-set_property  -dict {PACKAGE_PIN  D15  IOSTANDARD LVCMOS33 } [get_ports FPGA_TXD0 ]; # B16_L1_N
+# set_property  -dict {PACKAGE_PIN  D14  IOSTANDARD LVCMOS33 } [get_ports FPGA_RXD0 ]; # B16_L1_P
+# set_property  -dict {PACKAGE_PIN  D15  IOSTANDARD LVCMOS33 } [get_ports FPGA_TXD0 ]; # B16_L1_N
 
 
 
@@ -162,6 +162,5 @@ set_property  -dict {PACKAGE_PIN  N17  IOSTANDARD LVCMOS33 } [get_ports tx_amp_e
 set_property  -dict {PACKAGE_PIN  P17  IOSTANDARD LVCMOS33 } [get_ports tx_amp_en2 ]; # TX AMP power enable
 # set_property  -dict {PACKAGE_PIN  U17  IOSTANDARD LVCMOS33 } [get_ports rx_bais_en ]; # TX AMP power enable
 # set_property  -dict {PACKAGE_PIN  U18  IOSTANDARD LVCMOS33 } [get_ports tx_bais_en ]; # TX AMP power enable
-# set_property  -dict {PACKAGE_PIN  Y19  IOSTANDARD LVCMOS33 } [get_ports clk_sel]        ;
 
 set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]

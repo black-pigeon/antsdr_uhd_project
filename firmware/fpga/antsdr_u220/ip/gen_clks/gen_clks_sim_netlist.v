@@ -1,14 +1,14 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-// Date        : Wed Dec 28 15:16:04 2022
-// Host        : mp-dev running 64-bit Ubuntu 20.04.5 LTS
+// Date        : Tue Mar 14 15:44:00 2023
+// Host        : wcc-dev running 64-bit Ubuntu 20.04.5 LTS
 // Command     : write_verilog -force -mode funcsim
-//               /home/mp/wcc_demo/git_antsdr_uhd/vivado_pre/antsdr_u220/ip/gen_clks/gen_clks_sim_netlist.v
+//               /home/wcc/wcc_demo/git_antsdr_uhd/fpga_pre/antsdr_u220/ip/gen_clks/gen_clks_sim_netlist.v
 // Design      : gen_clks
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
-// Device      : xc7a100tfgg484-2
+// Device      : xc7a200tfbg484-2
 // --------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
@@ -25,7 +25,7 @@ module gen_clks
   output locked;
   input clk_in1;
 
-  (* IBUF_LOW_PWR *) wire clk_in1;
+  wire clk_in1;
   wire clk_out1;
   wire clk_out2;
   wire clk_out3;
@@ -53,7 +53,6 @@ module gen_clks_gen_clks_clk_wiz
   input clk_in1;
 
   wire clk_in1;
-  wire clk_in1_gen_clks;
   wire clk_out1;
   wire clk_out1_gen_clks;
   wire clk_out2;
@@ -82,15 +81,6 @@ module gen_clks_gen_clks_clk_wiz
   BUFG clkf_buf
        (.I(clkfbout_gen_clks),
         .O(clkfbout_buf_gen_clks));
-  (* BOX_TYPE = "PRIMITIVE" *) 
-  (* CAPACITANCE = "DONT_CARE" *) 
-  (* IBUF_DELAY_VALUE = "0" *) 
-  (* IFD_DELAY_VALUE = "AUTO" *) 
-  IBUF #(
-    .IOSTANDARD("DEFAULT")) 
-    clkin1_ibufg
-       (.I(clk_in1),
-        .O(clk_in1_gen_clks));
   (* BOX_TYPE = "PRIMITIVE" *) 
   BUFG clkout1_buf
        (.I(clk_out1_gen_clks),
@@ -158,7 +148,7 @@ module gen_clks_gen_clks_clk_wiz
         .CLKFBOUT(clkfbout_gen_clks),
         .CLKFBOUTB(NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED),
         .CLKFBSTOPPED(NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED),
-        .CLKIN1(clk_in1_gen_clks),
+        .CLKIN1(clk_in1),
         .CLKIN2(1'b0),
         .CLKINSEL(1'b1),
         .CLKINSTOPPED(NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED),

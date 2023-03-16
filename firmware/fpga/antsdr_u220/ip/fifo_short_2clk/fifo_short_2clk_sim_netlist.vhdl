@@ -1,14 +1,14 @@
 -- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
--- Date        : Wed Dec 28 15:16:30 2022
--- Host        : mp-dev running 64-bit Ubuntu 20.04.5 LTS
+-- Date        : Fri Mar 10 11:31:43 2023
+-- Host        : wcc-dev running 64-bit Ubuntu 20.04.5 LTS
 -- Command     : write_vhdl -force -mode funcsim
---               /home/mp/wcc_demo/git_antsdr_uhd/vivado_pre/antsdr_u220/ip/fifo_short_2clk/fifo_short_2clk_sim_netlist.vhdl
+--               /home/wcc/wcc_demo/git_antsdr_uhd/fpga_pre/antsdr_u220/ip/fifo_short_2clk/fifo_short_2clk_sim_netlist.vhdl
 -- Design      : fifo_short_2clk
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
--- Device      : xc7a100tfgg484-2
+-- Device      : xc7a200tfbg484-2
 -- --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;

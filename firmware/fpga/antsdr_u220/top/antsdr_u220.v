@@ -100,7 +100,7 @@ module antsdr_u220 (
         input  wire             CLKIN_10MHz     ,
         output wire             REF_CLK_REQ     ,
 
-        output wire             PPS_LED         ,
+        output wire             PPS_LOCKED      ,
         output wire             REF_LOCKED      ,
 
         output wire             GPS_nRST        ,
@@ -157,11 +157,8 @@ module antsdr_u220 (
     //
     /////////////////////////////////////////////////////////////////////
     wire clk_int40;
-    wire pps_refclk;
     wire [1:0] pps_select;
     wire pps_fpga_int;
-    wire ref_select;
-    wire refclk_locked_busclk;
 
     reg [15:0] clocks_ready_count;
     reg clocks_ready;
@@ -196,7 +193,7 @@ module antsdr_u220 (
     // pps_select == 2'b10 ----> internal pps genreated by fpga
 
     assign ext_ref =    (pps_select == 2'b01)? PPS_IN_EXT :
-                        (pps_select == 2'b10 && ref_sel == 1'b0)? PPS_IN_EXT : // ref_sel selects the external or gpsdo clock source
+                        (pps_select == 2'b10 && ref_sel == 1'b0)? CLKIN_10MHz : // ref_sel selects the external or gpsdo clock source
                         (pps_select == 2'b10)? pps_fpga_int: 1'b0;
     wire is10meg;
     wire ispps;
@@ -204,8 +201,21 @@ module antsdr_u220 (
     assign refsel = (pps_select == 2'b01 || pps_select == 2'b10) ? 2'b11 : 
                     (pps_select == 2'b00)? 2'b00: 2'b01;
     assign REF_CLK_REQ = 1'b1;
-    assign PPS_LED = lpps;
-    assign REF_LOCKED = ext_ref_locked;
+
+    assign PPS_LOCKED = ext_ref_locked & ispps;
+    assign REF_LOCKED = ext_ref_locked & is10meg;
+
+    // always @(*) begin
+    //     if (pps_select == 2'b00 && ext_ref_locked) begin
+    //         {PPS_LOCKED, REF_LOCKED} = 2'b11;
+    //     end else if (pps_select == 2'b01 && ext_ref_locked) begin
+    //         {PPS_LOCKED, REF_LOCKED} = 2'b10;
+    //     end else if (pps_select == 2'b10 && ref_sel == 1'b0 && ext_ref_locked) begin
+    //         {PPS_LOCKED, REF_LOCKED} = 2'b01;
+    //     end else begin
+    //         {PPS_LOCKED, REF_LOCKED} = 2'b00;
+    //     end
+    // end
 
     gen_clks u_gen_clocks_main(
         .clk_out1(),
@@ -218,11 +228,11 @@ module antsdr_u220 (
 
 
     ppsloop #(
-        .DEVICE("E200")
+        .DEVICE("LTC2630")
     )u_ppsloop(
         .reset   ( 1'b0   ),
         .xoclk   ( CLK_40MHz_FPGA   ),
-        .ppsgps  ( 1'b0     ),
+        .ppsgps  ( PPS_IN_INT     ),
         .ppsext  ( ext_ref  ),
         .refsel  ( refsel  ),
         .lpps    ( lpps    ),
@@ -237,15 +247,17 @@ module antsdr_u220 (
         .dac_dflt  ( 16'hBfff  )
     );
 
-    vio_0 u_vio_0 (
-        .clk(bus_clk),              // input wire clk
-        .probe_in0(pps_select),  // input wire [1 : 0] probe_in0
-        .probe_in1(is10meg),  // input wire [0 : 0] probe_in1
-        .probe_in2(ispps),  // input wire [0 : 0] probe_in2
-        .probe_in3(ext_ref_locked),  // input wire [0 : 0] probe_in3
-        .probe_in4(ref_sel),  // input wire [0 : 0] probe_in4
-        .probe_in5(lpps)  // input wire [0 : 0] probe_in5
-      );
+
+    // vio_0 u_vio_0 (
+    //     .clk(bus_clk),              // input wire clk
+    //     .probe_in0(pps_select),  // input wire [1 : 0] probe_in0
+    //     .probe_in1(PPS_IN_INT),  // input wire [0 : 0] probe_in1
+    //     .probe_in2(is10meg),  // input wire [0 : 0] probe_in2
+    //     .probe_in3(ispps),  // input wire [0 : 0] probe_in3
+    //     .probe_in4(ext_ref_locked),  // input wire [0 : 0] probe_in4
+    //     .probe_in5(PPS_IN_EXT)  // input wire [0 : 0] probe_in5
+    // );
+
     ///////////////////////////////////////////////////////////////////////
     // AD936x I/O
     ///////////////////////////////////////////////////////////////////////
@@ -401,7 +413,7 @@ module antsdr_u220 (
    );
 
     ODDR #(
-        .DDR_CLK_EDGE("OPPOSITE_EDGE"), // "OPPOSITE_EDGE" or "SAME_EDGE" 
+        .DDR_CLK_EDGE("SAME_EDGE"), // "OPPOSITE_EDGE" or "SAME_EDGE" 
         .INIT(1'b0),    // Initial value of Q: 1'b0 or 1'b1
         .SRTYPE("SYNC") // Set/Reset type: "SYNC" or "ASYNC" 
     ) ODDR_inst (

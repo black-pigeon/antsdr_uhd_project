@@ -1,5 +1,5 @@
 # create the vivado project
-create_project antsdr_u220 ./antsdr_u220 -part xc7a100tfgg484-2
+create_project antsdr_u220 ./antsdr_u220 -part xc7a200tfbg484-2
 
 # add custom ip to the project
 
@@ -18,7 +18,6 @@ add_files {
     ./ip/fifo_4k_2clk/fifo_4k_2clk.xci
     ./ip/fifo_short_2clk/fifo_short_2clk.xci
     ./ip/gen_clks/gen_clks.xci 
-    ./ip/vio_0/vio_0.xci
 
     ../lib/ngc/hbdec2.ngc
     ../lib/ngc/hbdec1.ngc

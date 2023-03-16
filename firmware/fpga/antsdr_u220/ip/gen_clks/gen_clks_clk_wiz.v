@@ -82,9 +82,7 @@ module gen_clks_clk_wiz
   //------------------------------------
 wire clk_in1_gen_clks;
 wire clk_in2_gen_clks;
-  IBUF clkin1_ibufg
-   (.O (clk_in1_gen_clks),
-    .I (clk_in1));
+  assign clk_in1_gen_clks = clk_in1;
 
 
 

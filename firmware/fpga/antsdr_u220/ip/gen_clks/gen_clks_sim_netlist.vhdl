@@ -1,14 +1,14 @@
 -- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
--- Date        : Wed Dec 28 15:16:04 2022
--- Host        : mp-dev running 64-bit Ubuntu 20.04.5 LTS
+-- Date        : Tue Mar 14 15:44:00 2023
+-- Host        : wcc-dev running 64-bit Ubuntu 20.04.5 LTS
 -- Command     : write_vhdl -force -mode funcsim
---               /home/mp/wcc_demo/git_antsdr_uhd/vivado_pre/antsdr_u220/ip/gen_clks/gen_clks_sim_netlist.vhdl
+--               /home/wcc/wcc_demo/git_antsdr_uhd/fpga_pre/antsdr_u220/ip/gen_clks/gen_clks_sim_netlist.vhdl
 -- Design      : gen_clks
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
--- Device      : xc7a100tfgg484-2
+-- Device      : xc7a200tfbg484-2
 -- --------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -27,7 +27,6 @@ entity gen_clks_gen_clks_clk_wiz is
 end gen_clks_gen_clks_clk_wiz;
 
 architecture STRUCTURE of gen_clks_gen_clks_clk_wiz is
-  signal clk_in1_gen_clks : STD_LOGIC;
   signal clk_out1_gen_clks : STD_LOGIC;
   signal clk_out2_gen_clks : STD_LOGIC;
   signal clk_out3_gen_clks : STD_LOGIC;
@@ -49,13 +48,6 @@ architecture STRUCTURE of gen_clks_gen_clks_clk_wiz is
   signal NLW_mmcm_adv_inst_DO_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
   attribute BOX_TYPE : string;
   attribute BOX_TYPE of clkf_buf : label is "PRIMITIVE";
-  attribute BOX_TYPE of clkin1_ibufg : label is "PRIMITIVE";
-  attribute CAPACITANCE : string;
-  attribute CAPACITANCE of clkin1_ibufg : label is "DONT_CARE";
-  attribute IBUF_DELAY_VALUE : string;
-  attribute IBUF_DELAY_VALUE of clkin1_ibufg : label is "0";
-  attribute IFD_DELAY_VALUE : string;
-  attribute IFD_DELAY_VALUE of clkin1_ibufg : label is "AUTO";
   attribute BOX_TYPE of clkout1_buf : label is "PRIMITIVE";
   attribute BOX_TYPE of clkout2_buf : label is "PRIMITIVE";
   attribute BOX_TYPE of clkout3_buf : label is "PRIMITIVE";
@@ -65,14 +57,6 @@ clkf_buf: unisim.vcomponents.BUFG
      port map (
       I => clkfbout_gen_clks,
       O => clkfbout_buf_gen_clks
-    );
-clkin1_ibufg: unisim.vcomponents.IBUF
-    generic map(
-      IOSTANDARD => "DEFAULT"
-    )
-        port map (
-      I => clk_in1,
-      O => clk_in1_gen_clks
     );
 clkout1_buf: unisim.vcomponents.BUFG
      port map (
@@ -145,7 +129,7 @@ mmcm_adv_inst: unisim.vcomponents.MMCME2_ADV
       CLKFBOUT => clkfbout_gen_clks,
       CLKFBOUTB => NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED,
       CLKFBSTOPPED => NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED,
-      CLKIN1 => clk_in1_gen_clks,
+      CLKIN1 => clk_in1,
       CLKIN2 => '0',
       CLKINSEL => '1',
       CLKINSTOPPED => NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED,
